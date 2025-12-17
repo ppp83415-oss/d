@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -95,8 +95,141 @@
     </footer>
 </body>
 
-</html>
+</html> 
 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免費思想千萬年放光芒網</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        #about-btn {
+            background-color: #2196F3; /* Blue */
+        }
+        #courses-btn {
+            background-color: #FF9800; /* Orange */
+        }
+        #contact-btn {
+            background-color: #9C27B0; /* Purple */
+        }
+        .header-image {
+            max-width: 50%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        section {
+            display: none;
+            padding: 20px;
+            background: white;
+            margin: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #4CAF50;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => section.style.display = 'none');
+            
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+        }
+        
+        // Show about section by default when page loads
+        window.onload = function() {
+            showSection('about');
+        };
+    </script>
+</head>
+<body>
+  
+<header>
+    <h1>免費思想千萬年放光芒網</h1>
+    
+    <div class="button-container">
+        <button id="about-btn" onclick="showSection('about')">About Us</button>
+        <button id="courses-btn" onclick="showSection('courses')">Free List</button>
+        <button id="contact-btn" onclick="showSection('contact')">Sharing</button>
+    </div>
+    
+    <img src="sdhgsjgdvjsacbvgujscn.jpg.jpg" alt="網站主題圖片" class="header-image">
+</header>
+
+<section id="about">
+    <h2>About Us</h2>
+    <p>This website provides and encourages "free thing" sharing and believes in the <strong>"everything should be free"</strong> core value.</p>
+</section>
+
+<section id="courses">
+    <h2>Free List</h2>
+    <ul>
+        <li>Free Educational Resources</li>
+        <li>Open Source Software</li>
+        <li>Creative Commons Media</li>
+        <li>Public Domain Books</li>
+        <li>Free Online Courses</li>
+    </ul>
+</section>
+
+<section id="contact">
+    <h2>Sharing</h2>
+    <p>Share your free resources with our community!</p>
+    <p>Together we can build a world where knowledge and resources are freely accessible to everyone.</p>
+</section>
+
+<footer>
+    <p>&copy; 2025 免費思想千萬年放光芒網 All rights reserved.</p>
+</footer>
+</body>
+</html>
 
 
 
