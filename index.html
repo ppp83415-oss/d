@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -210,14 +210,14 @@
             font-size: 0.95rem;
             color: rgba(255, 255, 255, 0.9);
         }
-        
+
         /* 響應式設計 */
         @media (max-width: 1200px) {
             .button-container {
                 justify-content: flex-start;
             }
         }
-        
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.8rem;
@@ -252,7 +252,7 @@
                 padding: 8px 16px;
             }
         }
-        
+
         @media (max-width: 480px) {
             h1 {
                 font-size: 1.5rem;
@@ -278,107 +278,133 @@
         }
     </style>
     <script>
-        function showSection(sectionId) {
-            // Hide all sections and the welcome message
+        // 修復時間顯示函數
+        function updateRealTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+            const weekday = weekdays[now.getDay()];
+            
+            const fullTimeStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${weekday}`;
+            
+            // 直接更新DOM元素
+            const realTimeElement = document.getElementById('real-time');
+            if (realTimeElement) {
+                realTimeElement.textContent = fullTimeStr;
+            }
+        }
+
+        // 修復切換頁面函數
+        function showSection(sectionId, event) {
+            // 隱藏所有部分和歡迎訊息
             const sections = document.querySelectorAll('section');
             sections.forEach(section => {
                 section.style.display = 'none';
             });
-            document.getElementById('welcome-message').style.display = 'none';
-            
-            // Show or hide the header image based on section
-            const headerImage = document.querySelector('.header-image');
-            if (sectionId === 'home') {
-                headerImage.style.display = 'block';
-                document.getElementById('welcome-message').style.display = 'block';
-            } else {
-                headerImage.style.display = 'none';
-                // Show the selected section
-                document.getElementById(sectionId).style.display = 'block';
+            const welcomeMessage = document.getElementById('welcome-message');
+            if (welcomeMessage) {
+                welcomeMessage.style.display = 'none';
             }
-            
+
+            // 根據部分顯示或隱藏標題圖片
+            const headerImage = document.querySelector('.header-image');
+            if (headerImage) {
+                if (sectionId === 'home') {
+                    headerImage.style.display = 'block';
+                    if (welcomeMessage) {
+                        welcomeMessage.style.display = 'block';
+                    }
+                } else {
+                    headerImage.style.display = 'none';
+                    // 顯示選擇的部分
+                    const selectedSection = document.getElementById(sectionId);
+                    if (selectedSection) {
+                        selectedSection.style.display = 'block';
+                    }
+                }
+            }
+
             // 更新按鈕活動狀態
             const buttons = document.querySelectorAll('button');
             buttons.forEach(btn => {
                 btn.classList.remove('active-button');
             });
-            event.target.classList.add('active-button');
             
-            // 平滑滾動到頂部（如果是主頁）或到該部分
+            if (event && event.target) {
+                event.target.classList.add('active-button');
+            }
+
+            // 平滑滾動
             if (sectionId === 'home') {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                document.getElementById(sectionId).scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
-                });
+                const sectionElement = document.getElementById(sectionId);
+                if (sectionElement) {
+                    sectionElement.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
             }
         }
-        
-        // 更新實時時間函數
-        function updateRealTime() {
-            const now = new Date();
+
+        // 頁面加載完成後執行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始顯示主頁
+            showSection('home', null);
             
-            // 格式化日期
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            
-            // 格式化時間
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            
-            // 星期幾
-            const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-            const weekday = weekdays[now.getDay()];
-            
-            // 組合成完整時間字符串
-            const dateStr = `${year}-${month}-${day}`;
-            const timeStr = `${hours}:${minutes}:${seconds}`;
-            const fullTimeStr = `${dateStr} ${timeStr} ${weekday}`;
-            
-            // 更新顯示
-            document.getElementById('real-time').textContent = fullTimeStr;
-        }
-        
-        // Show home page by default when page loads
-        window.onload = function() {
-            showSection('home');
             // 設置主頁按鈕為活動狀態
-            document.getElementById('home-btn').classList.add('active-button');
-            
-            // 初始化時間顯示
+            const homeBtn = document.getElementById('home-btn');
+            if (homeBtn) {
+                homeBtn.classList.add('active-button');
+            }
+
+            // 初始更新時間
             updateRealTime();
             
-            // 每秒更新一次時間
+            // 每秒更新時間
             setInterval(updateRealTime, 1000);
-        };
+            
+            // 為所有按鈕添加事件監聽器
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const sectionId = this.id.replace('-btn', '');
+                    showSection(sectionId, e);
+                });
+            });
+        });
     </script>
 </head>
 <body>
 <header>
     <h1>免費思想千萬年放光芒網</h1>
-    
+
     <div class="button-container">
-        <button id="home-btn" onclick="showSection('home')">Home<br>主頁</button>
-        <button id="about-btn" onclick="showSection('about')">About Us<br>關於我們</button>
-        <button id="courses-btn" onclick="showSection('courses')">Free List<br>免費清單</button>
-        <button id="contact-btn" onclick="showSection('contact')">Sharing<br>分享區</button>
-        <button id="mission-btn" onclick="showSection('mission')">Our Mission<br>我們的使命</button>
-        <button id="resources-btn" onclick="showSection('resources')">Free Resources<br>免費資源</button>
-        <button id="gallery-btn" onclick="showSection('gallery')">Photo Gallery<br>照片集</button>
-        <button id="news-btn" onclick="showSection('news')">Latest News<br>最新消息</button>
-        <button id="forum-btn" onclick="showSection('forum')">Discussion Forum<br>討論區</button>
+        <button id="home-btn">Home<br>主頁</button>
+        <button id="about-btn">About Us<br>關於我們</button>
+        <button id="courses-btn">Free List<br>免費清單</button>
+        <button id="contact-btn">Sharing<br>分享區</button>
+        <button id="mission-btn">Our Mission<br>我們的使命</button>
+        <button id="resources-btn">Free Resources<br>免費資源</button>
+        <button id="gallery-btn">Photo Gallery<br>照片集</button>
+        <button id="news-btn">Latest News<br>最新消息</button>
+        <button id="forum-btn">Discussion Forum<br>討論區</button>
     </div>
-    
+
     <img src="sdhgsjgdvjsacbvgujscn.jpg.jpg" alt="免費分享文化主題圖片" class="header-image">
 </header>
 
 <!-- 主頁歡迎訊息 -->
 <div id="welcome-message" class="welcome-message">
     <h2>歡迎來到免費思想千萬年放光芒網</h2>
-    <p>這裡是一個提倡免費分享文化的平台，我們相信「一切皆應免費」的核心價值觀。</p>
+    <p>這裡是一個提倡免費分享文化的平台，我們相信「一切皆應免費」的核心價值觀。</p>
     <p>請使用上面的按鈕瀏覽不同的內容區域，開始您的免費分享之旅！</p>
 </div>
 
@@ -389,9 +415,7 @@
 
 <section id="courses">
     <h2>Free Record</h2>
-    <p>2024/1/5 $200免費吃港灣茶餐廳用旅發局券 harbour kitchen hong kong convention and exhibition centre 
-
-</p>
+    <p>2024/1/5 $200免費吃港灣茶餐廳用旅發局券 harbour kitchen hong kong convention and exhibition centre</p>
 </section>
 
 <section id="contact">
@@ -427,16 +451,9 @@
 <footer>
     <div class="footer-content">
         <div class="clock-label">當前時間 (實時更新)</div>
-        <div id="real-time" class="real-time-clock"></div>
+        <div id="real-time" class="real-time-clock">載入中...</div>
         <div class="copyright">&copy; 2026 免費思想千萬年放光芒網 All rights reserved.</div>
     </div>
 </footer>
 </body>
 </html>
-
-
-
-
-
-
-
